@@ -30,7 +30,7 @@ Function StartTheShow {
 Function BuildGUI {
 
     # Form variables
-    $Font = "Segoe UI" # Define the font used by the Form
+    $FormFont = "Segoe UI" # Define the font used by the Form
     $BaseColor = "#39ACFF"
     $MouseOverColor = "#0086e6"
 
@@ -50,6 +50,16 @@ Function BuildGUI {
     $TitleBar.Size                      = New-Object System.Drawing.Size(530,30)
     $TitleBar.Location                  = New-Object System.Drawing.Point(0,0)
     $TitleBar.BackColor                 = [System.Drawing.ColorTranslator]::FromHtml("#1a9fff")
+
+    # Titlebar Label
+    $TitleBarLabel                      = New-Object system.Windows.Forms.Label
+    $TitleBarLabel.Text                 = "$Title"
+    $TitleBarLabel.Size                 = New-Object System.Drawing.Size(530,30)
+    $TitleBarLabel.location             = New-Object System.Drawing.Point(5,0)
+    $TitleBarLabel.Font                 = New-Object System.Drawing.Font($FormFont,12)
+    $TitleBarLabel.ForeColor            = [System.Drawing.ColorTranslator]::FromHtml("#ffffff")
+    $TitleBarLabel.BackColor            = [System.Drawing.ColorTranslator]::FromHtml("#1a9fff")
+    $TitleBarLabel.TextAlign            = "MiddleLeft"
 
     #Builds the - button
     $ButtonMinimize                     = New-Object system.Windows.Forms.Button
@@ -154,7 +164,7 @@ Function BuildGUI {
     $GUIconsole.ReadOnly                = $True
     $GUIconsole.BorderStyle             = 'None'
     $GUIconsole.BackColor               = [System.Drawing.ColorTranslator]::FromHtml("#ffffff")
-    $GUIConsole.Font                    = New-Object System.Drawing.Font($font,8)
+    $GUIConsole.Font                    = New-Object System.Drawing.Font($FormFont,8)
 
 #####################################################################################################
 
@@ -191,9 +201,10 @@ Function BuildGUI {
     $GUIconsole.Text = ("$defaultText")
 
     $Form.controls.AddRange(@(
-        $GUIconsole,
         $ButtonClose,
         $ButtonMinimize,
+        $TitleBarLabel,
+        $GUIconsole,
         $TitleBar,
         $ButtonOne,
         $ButtonTwo,
@@ -259,7 +270,7 @@ public partial class FormMover : Form
  
 "@
 
-$TitleBar_MouseDown=[System.Windows.Forms.MouseEventHandler]{
+$TitleBarLabel_MouseDown=[System.Windows.Forms.MouseEventHandler]{
     # $_ = MouseEventArgs
     # Use our custom class with the PanelDrag
     # Tie the mouse down event to interact with our main form
@@ -268,7 +279,7 @@ $TitleBar_MouseDown=[System.Windows.Forms.MouseEventHandler]{
     [FormMover]::OnMouseDown_MoveForm($Form, $MouseEventArguments)
 }
 
-$TitleBar.add_MouseDown($TitleBar_MouseDown)
+$TitleBarLabel.add_MouseDown($TitleBarLabel_MouseDown)
 
 #####################################################################################################
 
