@@ -38,7 +38,6 @@ Function BuildGUI {
     $Form                               = New-Object system.Windows.Forms.Form
     $Form.ClientSize                    = New-Object System.Drawing.Point(530,530)
     $Form.text                          = ""
-    $Form.TopMost                       = $false
     $Form.BackColor                     = [System.Drawing.ColorTranslator]::FromHtml("#dadada")
     $Form.StartPosition                 = [System.Windows.Forms.FormStartPosition]::CenterScreen
     $Form.ControlBox                    = $false
