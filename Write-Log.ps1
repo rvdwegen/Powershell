@@ -61,7 +61,7 @@ Function Write-Log{
     }
 
     # Used to print a log entry to a logfile
-    if ($LogPath) {
+    if ($LogPath -eq $true) {
         # Create a CMTrace compatible log entry
         $Content = "<![LOG[$LogMsg]LOG]!>" +`
             "<time=`"$(Get-Date -Format "HH:mm:ss.ffffff")`" " +`
