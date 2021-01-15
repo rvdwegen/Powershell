@@ -20,14 +20,17 @@ param(
 
     # Set the DHCP server to query
     [Parameter(Mandatory=$true)]
+    [ValidatePattern('^[a-zA-Z0-9]*$')]
     [String]$DHCPServer,
 
     # Hostname to search for, can be partial match
     [parameter(Mandatory=$false)]
+    [ValidatePattern('^[a-zA-Z0-9]*$')]
     [String]$Hostname="",
 
     # MacAddress to search for, can be partial match
     [parameter(Mandatory=$false)]
+    [ValidatePattern('^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$')] # Must be a valid Mac address matching the XX-XX-XX-XX-XX-XX or XX:XX:XX:XX:XX:XX pattern
     [String]$MacAddress="",
 
     # CSV file location
@@ -37,6 +40,9 @@ param(
 
 Function Start-Script {
     Try {
+        $MacAddress = $MacAddress -replace '[^\p{L}\p{Nd}]', '' # Strip out special characters
+        $MacAddress = $MacAddress -replace '..(?!$)', '$&-' # Add a - after every second character
+
         Get-DHCPLeases -Type $Type -DHCPServer $DHCPServer -Hostname $Hostname -MacAddress $MacAddress -Export $Export -ErrorAction Stop
         Write-Log -Type "Info" -LogMsg "Output can be found at $Export" -Console
     }
@@ -68,6 +74,7 @@ Function Get-DHCPLeases {
 
         # MacAddress to search for, can be partial match
         [parameter(Mandatory=$false)]
+        [ValidatePattern('^([0-9A-F]{2}[--]){5}([0-9A-F]{2})$')]
         [String]$MacAddress,
 
         # CSV file location
@@ -88,7 +95,7 @@ Function Get-DHCPLeases {
     # Initialize array
     $DHCPLeases = @()
 
-    # Loop through $Scopes to fill $DHCPLeases
+    # Loop through $Scopes to fill the $DHCPLeases array
     foreach ($ScopeID in $Scopes) {
         $DHCPLeases += Get-DhcpServerv4Lease -ComputerName $DHCPServer -ScopeId $ScopeID.scopeid -ErrorAction Continue
     }
@@ -96,11 +103,17 @@ Function Get-DHCPLeases {
     # Determine the request type and execute an option accordingly
     switch ($Type) {
         # Wildcard, exports EVERYTHING
-        "1" { $DHCPLeases | Select-Object HostName, IPAddress, ClientId, ScopeId, AddressState | Export-Csv -Path $Export -delimiter ';' -NoTypeInformation -ErrorAction Stop }
+        "1" {
+            $DHCPLeases | Select-Object HostName, IPAddress, ClientId, ScopeId, AddressState | Export-Csv -Path $Export -delimiter ';' -NoTypeInformation -ErrorAction Stop
+        }
         # Hostname, exports everything that matches the hostname. Partial matches are possible
-        "2" { $DHCPLeases | Select-Object HostName, IPAddress, ClientId, ScopeId, AddressState | Where-Object {$_.Hostname -Match "$Hostname"} | Export-Csv -Path $Export -delimiter ';' -NoTypeInformation -ErrorAction Stop }
+        "2" {
+            $DHCPLeases | Select-Object HostName, IPAddress, ClientId, ScopeId, AddressState | Where-Object {$_.Hostname -Match "$Hostname"} | Export-Csv -Path $Export -delimiter ';' -NoTypeInformation -ErrorAction Stop
+        }
         # MacAddress, exports everything that matches the MacAddress. Partial matches are possible
-        "3" { $DHCPLeases | Select-Object HostName, IPAddress, ClientId, ScopeId, AddressState | Where-Object {$_.ClientId -Match "$MacAddress"} | Export-Csv -Path $Export -delimiter ';' -NoTypeInformation -ErrorAction Stop }
+        "3" {
+            $DHCPLeases | Select-Object HostName, IPAddress, ClientId, ScopeId, AddressState | Where-Object {$_.ClientId -Match "$MacAddress"} | Export-Csv -Path $Export -delimiter ';' -NoTypeInformation -ErrorAction Stop
+        }
     }
 
 }
