@@ -13,7 +13,7 @@
 
 [CmdletBinding()]
 param(
-    # Used to determine the log entry type
+    # Used to determine the request type
     [Parameter(Mandatory=$true)]
     [ValidateSet("Wildcard", "Hostname", "MacAddress")]
     [String]$Type,
@@ -22,11 +22,11 @@ param(
     [Parameter(Mandatory=$true)]
     [String]$DHCPServer,
 
-    # Hostname to search for
+    # Hostname to search for, can be partial match
     [parameter(Mandatory=$false)]
     [String]$Hostname="",
 
-    # Hostname to search for
+    # MacAddress to search for, can be partial match
     [parameter(Mandatory=$false)]
     [String]$MacAddress="",
 
@@ -53,7 +53,7 @@ Function Start-Script {
 Function Get-DHCPLeases {
     [CmdletBinding()]
     param(
-        # Used to determine the log entry type
+        # Used to determine the request type
         [Parameter(Mandatory=$true)]
         [ValidateSet("Wildcard", "Hostname", "MacAddress")]
         [String]$Type,
@@ -62,11 +62,11 @@ Function Get-DHCPLeases {
         [Parameter(Mandatory=$true)]
         [String]$DHCPServer,
 
-        # Hostname to search for
+        # Hostname to search for, can be partial match
         [parameter(Mandatory=$false)]
         [String]$Hostname,
 
-        # MacAddress to search for
+        # MacAddress to search for, can be partial match
         [parameter(Mandatory=$false)]
         [String]$MacAddress,
 
@@ -82,14 +82,18 @@ Function Get-DHCPLeases {
         "MacAddress" { [int]$Type = 3 }
     }
 
+    # Get the scopes
     $Scopes = Get-DhcpServerv4Scope -ComputerName $DHCPServer -ErrorAction Stop
 
+    # Initialize array
     $DHCPLeases = @()
 
+    # Loop through $Scopes to fill $DHCPLeases
     foreach ($ScopeID in $Scopes) {
         $DHCPLeases += Get-DhcpServerv4Lease -ComputerName $DHCPServer -ScopeId $ScopeID.scopeid -ErrorAction Continue
     }
 
+    # Determine the request type and execute an option accordingly
     switch ($Type) {
         # Wildcard, exports EVERYTHING
         "1" { $DHCPLeases | Select-Object HostName, IPAddress, ClientId, ScopeId, AddressState | Export-Csv -Path $Export -delimiter ';' -NoTypeInformation -ErrorAction Stop }
