@@ -4,11 +4,11 @@
 .DESCRIPTION
   This script searches the specified DHCP server for the requested Hostname or MacAddress
 .EXAMPLE 
-  .\DHCP-Search.ps1 -Type "Wildcard" -DHCPServer "DHCPhostname" -Export "DHCPLeases.csv" 
+  .\DHCP-Search.ps1 -DHCPServer "DHCPhostname" -Export "DHCPLeases.csv" 
 .EXAMPLE
-  .\DHCP-Search.ps1 -Type "Hostname" -DHCPServer "DHCPhostname" -Hostname "FullOrPartialHostname" -Export "DHCPLeases.csv"
+  .\DHCP-Search.ps1 -DHCPServer "DHCPhostname" -Hostname "FullOrPartialHostname" -Export "DHCPLeases.csv"
 .EXAMPLE
-  .\DHCP-Search.ps1 -Type "MacAddress" -DHCPServer "DHCPhostname" -MacAddress "FullMacAddress" -Export "DHCPLeases.csv"
+  .\DHCP-Search.ps1 -DHCPServer "DHCPhostname" -MacAddress "FullMacAddress" -Export "DHCPLeases.csv"
 #>
 
 [CmdletBinding()]
@@ -54,14 +54,17 @@ Try {
     if ($Hostname) {
         Write-Host "Retrieving matching Hostnames and exporting" -ForegroundColor "Green"
         $DHCPLeases | Select-Object HostName, IPAddress, ClientId, ScopeId, AddressState | Where-Object {$_.Hostname -Match "$Hostname"} | Export-Csv -Path $Export -delimiter ';' -NoTypeInformation -ErrorAction Stop
+        Write-Host "File has been exported to $Export"
     }
     elseif ($MacAddress) {
         Write-Host "Retrieving matching Mac adresses and exporting" -ForegroundColor "Green"
         $DHCPLeases | Select-Object HostName, IPAddress, ClientId, ScopeId, AddressState | Where-Object {$_.ClientId -Match "$MacAddress"} | Export-Csv -Path $Export -delimiter ';' -NoTypeInformation -ErrorAction Stop
+        Write-Host "File has been exported to $Export"
     }
     else {
         Write-Host "Exporting all leases" -ForegroundColor "Green"
         $DHCPLeases | Select-Object HostName, IPAddress, ClientId, ScopeId, AddressState | Export-Csv -Path $Export -delimiter ';' -NoTypeInformation -ErrorAction Stop
+        Write-Host "File has been exported to $Export"
     }
 }
 Catch {
