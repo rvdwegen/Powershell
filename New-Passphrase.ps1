@@ -8,7 +8,7 @@ Function New-PassPhrase {
     $SpecialCharacters = @((33,35) + (36..38) + (40..46) + (60..62) + (64))
     $Numbers = @(48..57)
 
-    $url = "https://raw.githubusercontent.com/rvdwegen/Powershell/main/WordList"
+    $url = "https://raw.githubusercontent.com/rvdwegen/Powershell/main/WordListEN"
     $List = Invoke-WebRequest -Uri $url
     $FullList = $List.Content.Trim().split("`n")
 
