@@ -12,7 +12,8 @@ Function New-PassPhrase {
     $List = Invoke-WebRequest -Uri $url
     $FullList = $List.Content.Trim().split("`n")
 
-    $Password = ($FullList | Get-Random -Count 3) + ([char]($SpecialCharacters | Get-Random -Count 1)) + ([char]($Numbers | Get-Random -Count 1))
+    # Needs some more randomization for the SpecialChars and numbers
+    $Password = ($FullList | Get-Random -Count $WordCount) + ([char]($SpecialCharacters | Get-Random -Count 1)) + ([char]($Numbers | Get-Random -Count 1))
 
     Return ($Password -as [string]).Replace(' ','')
 }
