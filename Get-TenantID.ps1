@@ -7,10 +7,10 @@ $UserPrincipalName = "Bill@Contoso.com" # For example: Bill@Contoso.com
 Function Get-TenantID {
     param (
         [Parameter(Mandatory)]
-        [String]$UserPrincipalName
+        [MailAddress]$UserPrincipalName
     )
 
-    $Tenant = $($UserPrincipalName.Split("@")[1])
+    $Tenant = $UserPrincipalName.Host
 
     $Params = @{
         Method = 'GET'
