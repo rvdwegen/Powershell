@@ -16,7 +16,7 @@ $script = @"
 
 Write-Host $script
 
-$lol = 'Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted; iwr "https://raw.githubusercontent.com/rvdwegen/Powershell/main/autopilot.ps1" | iex ~'
+$lol = 'Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted -Confirm:$false; iwr "https://raw.githubusercontent.com/rvdwegen/Powershell/main/autopilot.ps1" | iex ~'
 
 $wshell = New-Object -ComObject wscript.shell;
 #$wshell.AppActivate('title of the application window')
