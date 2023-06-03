@@ -1,6 +1,6 @@
 # Self-elevate the script if required
 if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
-        $CommandLine = "iwr "https://raw.githubusercontent.com/rvdwegen/Powershell/main/autopilot3.ps1" | iex"
+        $CommandLine = 'iwr "https://raw.githubusercontent.com/rvdwegen/Powershell/main/autopilot4.ps1" | iex'
         Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine
         pause
 }
