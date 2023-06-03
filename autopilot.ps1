@@ -1,3 +1,22 @@
+cls
+
+$script = @"
+                                                
+     _         _              _ _       _     ____              _       _                   
+    / \  _   _| |_ ___  _ __ (_) | ___ | |_  | __ )  ___   ___ | |_ ___| |_ _ __ __ _ _ __  
+   / _ \| | | | __/ _ \| '_ \| | |/ _ \| __| |  _ \ / _ \ / _ \| __/ __| __| '__/ _`  | '_ \ 
+  / ___ \ |_| | || (_) | |_) | | | (_) | |_  | |_) | (_) | (_) | |_\__ \ |_| | | (_| | |_) |
+ /_/   \_\__,_|\__\___/| .__/|_|_|\___/ \__| |____/ \___/ \___/ \__|___/\__|_|  \__,_| .__/ 
+                       |_|                                                           |_|    
+                                                 
+                                                
+              ============ OfficeGrip autopilot hash bootstrap ============
+                               Author: Roel van der Wegen
+
+"@
+
+Write-Host $script
+
 function Save-File ([string]$filename) {
     [void][System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms")
 
