@@ -1,6 +1,6 @@
 $script = @"
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted
-iwr "otherscript" | iex
+iwr "https://raw.githubusercontent.com/rvdwegen/Powershell/main/autopilot.ps1" | iex
 "@
 
 Write-Host $script
