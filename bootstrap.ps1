@@ -10,9 +10,9 @@ $script = @"
                        | |                                                           | |    
                        |_|                                                           |_|    
                                                 
-              ============ OfficeGrip autopilot hash scaffold ============
+              ============ OfficeGrip autopilot hash bootstrap ============
                                Author: Roel van der Wegen
-                                        v1.5
+                                        v0.1
 
 "@
 
@@ -20,7 +20,7 @@ Write-Host $script
 
 # Self-elevate the script if required
 if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
-        $CommandLine = '-noexit iwr "https://raw.githubusercontent.com/rvdwegen/Powershell/main/bootstrap4.ps1" | iex'
+        $CommandLine = '-noexit iwr "https://raw.githubusercontent.com/rvdwegen/Powershell/main/bootstrap.ps1" | iex'
         Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine
         exit
 }
