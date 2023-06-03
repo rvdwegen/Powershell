@@ -11,7 +11,7 @@ $script = @"
                      |_|                                                           |_|    
                                                 
               ============ OfficeGrip autopilot hash scaffold ============
-                                        v1.4
+                                        v1.5
 
 "@
 
