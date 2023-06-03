@@ -22,7 +22,7 @@ $ScriptData = @'
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted -Force -Confirm:$false
 iwr "https://raw.githubusercontent.com/rvdwegen/Powershell/main/autopilot.ps1" | iex 
 ~
-@'
+'@
 
 $wshell = New-Object -ComObject wscript.shell;
 #$wshell.AppActivate('title of the application window')
