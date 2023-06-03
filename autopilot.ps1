@@ -4,7 +4,7 @@ function Save-File ([string]$filename) {
     [void][System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms")
 
     $OpenFileDialog = New-Object System.Windows.Forms.SaveFileDialog
-    $OpenFileDialog.initialDirectory = $env:USERPROFILE
+    $OpenFileDialog.initialDirectory = $env:HOMEDRIVE
     $OpenFileDialog.filter = 'CSV (*.csv)|*.csv'
     $OpenFileDialog.FileName = "$filename.csv"
     [void]$OpenFileDialog.ShowDialog()
