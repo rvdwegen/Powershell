@@ -1,4 +1,9 @@
-#Requires -RunAsAdministrator
+# Self-elevate the script if required
+if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
+        $CommandLine = "-File `"" + $MyInvocation.MyCommand.Path + "`" " + $MyInvocation.UnboundArguments
+        Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine
+        Exit
+}
 
 function Save-File ([string]$filename) {
     [void][System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms")
