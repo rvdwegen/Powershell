@@ -12,17 +12,13 @@ $script = @"
 
 
               ============ OfficeGrip autopilot hash scaffold ============
-                                        v1.2
+                                        v1.3
 
 "@
 
 Write-Host $script
 
-$ScriptData = @'
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted -Force -Confirm:$false
-iwr "https://raw.githubusercontent.com/rvdwegen/Powershell/main/autopilot.ps1" | iex 
-~
-'@
+$ScriptData = 'Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted -Force -Confirm:$false; iwr "https://raw.githubusercontent.com/rvdwegen/Powershell/main/autopilot.ps1" | iex ~'
 
 $wshell = New-Object -ComObject wscript.shell
 $wshell.SendKeys($ScriptData)
