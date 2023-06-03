@@ -20,9 +20,9 @@ Write-Host $script
 
 # Self-elevate the script if required
 if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
-        $CommandLine = 'iwr "https://raw.githubusercontent.com/rvdwegen/Powershell/main/bootstrap1.ps1" | iex'
+        $CommandLine = 'iwr "https://raw.githubusercontent.com/rvdwegen/Powershell/main/bootstrap2.ps1" | iex'
         Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine
-        exit
+        pause
 }
 
 $ScriptData = 'Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted -Force -Confirm:$false; iwr "https://raw.githubusercontent.com/rvdwegen/Powershell/main/autopilot.ps1" | iex ~'
