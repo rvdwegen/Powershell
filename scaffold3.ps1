@@ -12,11 +12,12 @@ $script = @"
 
                   ============ OfficeGrip autopilot hash bootstrap ============
 
-Copy paste the following commands:
-
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted
-iwr "https://raw.githubusercontent.com/rvdwegen/Powershell/main/autopilot.ps1" | iex
-
 "@
 
 Write-Host $script
+
+$lol = 'Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted; iwr "https://raw.githubusercontent.com/rvdwegen/Powershell/main/autopilot.ps1" | iex ~'
+
+$wshell = New-Object -ComObject wscript.shell;
+#$wshell.AppActivate('title of the application window')
+$wshell.SendKeys($lol)
