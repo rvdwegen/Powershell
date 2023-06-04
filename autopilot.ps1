@@ -11,7 +11,7 @@ $script = @"
                          |_|                                                           |_|    
                                                  
                                                 
-                 ============ OfficeGrip autopilot hash bootstrap ============
+                      ============ Autopilot hash bootstrap ============                      
                                   Author: Roel van der Wegen
 
 "@
