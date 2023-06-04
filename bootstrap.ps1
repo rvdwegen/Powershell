@@ -12,7 +12,7 @@ $script = @"
                                                 
               ============ OfficeGrip autopilot hash bootstrap ============
                                Author: Roel van der Wegen
-
+v1
 "@
 
 Write-Host $script
@@ -25,6 +25,7 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
         exit
 }
 
+Write-Host "Changing execution policy..."
 #$ScriptData = 'Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted -Force -Confirm:$false; iwr "https://raw.githubusercontent.com/rvdwegen/Powershell/main/autopilot.ps1" | iex {ENTER}'
 $ScriptData = 'Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted -Force -Confirm:$false; {ENTER}'
 $wshell = New-Object -ComObject wscript.shell
@@ -44,5 +45,6 @@ function Save-File ([string]$filename) {
 
 $SerialNumber = (Get-WmiObject win32_bios | select Serialnumber).SerialNumber
 
+Write-Host "Retrieving Autopilot hash..."
 Install-Script -name Get-WindowsAutopilotInfo -Force
 Get-WindowsAutopilotInfo -OutputFile (Save-File -filename $SerialNumber)
