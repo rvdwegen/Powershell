@@ -12,7 +12,7 @@ $script = @"
                                                 
               ============ OfficeGrip autopilot hash bootstrap ============
                                Author: Roel van der Wegen
-v1
+
 "@
 
 Write-Host $script
