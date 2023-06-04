@@ -1,3 +1,4 @@
+$ProgressPreference = 'SilentlyContinue'
 CLS
 
 $script = @"
